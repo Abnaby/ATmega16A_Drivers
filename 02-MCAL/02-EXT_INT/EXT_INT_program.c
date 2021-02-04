@@ -63,6 +63,7 @@ void EXTINT_voidMode(u8 copy_u8InterruptID , u8 copy_u8InterruptMode ,  void(*co
 		{
 			//<!TODO ERROR>
 		}
+
 		switch(copy_u8InterruptMode)
 		{
 			case EXT_INT0_LOW_LEVEL :
@@ -90,8 +91,70 @@ void EXTINT_voidMode(u8 copy_u8InterruptID , u8 copy_u8InterruptMode ,  void(*co
 			break ;
 		}
 		break ;
-		case EXT_INT1 : break ;
-		case EXT_INT2 : break;
+		case EXT_INT1 : 
+			/*		SET CALLBACK FUNCTION		*/
+			if(copy_funcAddress != NULL)
+			{
+				Callback_INT1 = copy_funcAddress;
+			}
+			else
+			{
+				//<!TODO ERROR>
+			}
+
+			switch(copy_u8InterruptMode)
+			{
+				case EXT_INT1_LOW_LEVEL :
+				/*	CLEAR ISC10 AND ISC11 IN MCUCR	*/
+				CLR_BIT(EXTINT_MCUCR,MCUCR_ISC10);
+				CLR_BIT(EXTINT_MCUCR,MCUCR_ISC11);
+				break ;
+				case EXT_INT1_FALLING_EDGE :
+				/*	CLEAR ISC10 AND SET ISC11 IN MCUCR	*/
+				CLR_BIT(EXTINT_MCUCR,MCUCR_ISC10);
+				SET_BIT(EXTINT_MCUCR,MCUCR_ISC11);
+				break ;
+				case EXT_INT1_RISING_EDGE :
+				/*	SER ISC10 AND ISC11 IN MCUCR	*/
+				SET_BIT(EXTINT_MCUCR,MCUCR_ISC10);
+				SET_BIT(EXTINT_MCUCR,MCUCR_ISC11);
+				break;
+				case EXT_INT1_LOGICAL_CHANGE :
+				/*	SET ISC11 AND CLEAR ISC10 IN MCUCR	*/
+				CLR_BIT(EXTINT_MCUCR,MCUCR_ISC11);
+				SET_BIT(EXTINT_MCUCR,MCUCR_ISC10);
+				break ;
+				default :
+				//<!TODO ERROR>
+				break ;
+			}
+			break ;
+		case EXT_INT2 : 
+			/*		SET CALLBACK FUNCTION		*/
+			if(copy_funcAddress != NULL)
+			{
+				Callback_INT2 = copy_funcAddress;
+			}
+			else
+			{
+				//<!TODO ERROR>
+			}
+
+			switch(copy_u8InterruptMode)
+			{
+				case EXT_INT2_FALLING_EDGE :
+				/*	CLEAR ISC2 IN MCUCSR	*/
+				CLR_BIT(EXTINT_MCUCSR,MCUCSR_ISC2);
+				break ;
+				case EXT_INT2_RISING_EDGE :
+				/*	SET ISC2 IN MCUCSR	*/
+				SET_BIT(EXTINT_MCUCSR,MCUCSR_ISC2);
+				break;
+				default :
+				//<!TODO ERROR>
+				break ;
+			}		
+			break;
 		default :
 		//<!TODO ERROR>
 		break ;
@@ -131,15 +194,17 @@ void __vector_18(void) __attribute__(( signal , used ));
 
 void __vector_1(void)
 {
-	Callback_INT0();
+	Callback_INT0();	
 }
 
 void __vector_2(void)
 {
 	Callback_INT1();
+	
+		
 }
 
 void __vector_18(void)
 {
-	Callback_INT1();
+	Callback_INT2();
 }
