@@ -42,6 +42,15 @@
 /*!<*************************** General Interrupt Control Register **********************/
 #define SREG              *((volatile u8 *) (0x5F))
 
+/*!<*************************** PRIVATE FUNCTIONS*****************************************/
+static void (*Callback_INT0) (void) = NULL ;
+static void (*Callback_INT1) (void) = NULL ;
+static void (*Callback_INT2) (void) = NULL;
+
+ void __vector_1(void) __attribute__(( signal , used ));
+ void __vector_2(void) __attribute__(( signal , used ));
+ void __vector_18(void) __attribute__(( signal , used ));
+
 
 
 

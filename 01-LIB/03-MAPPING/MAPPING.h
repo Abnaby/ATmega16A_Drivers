@@ -6,8 +6,9 @@
 
 #ifndef MAPPING_H
 #define MAPPING_H
-
-
+/*  NULL DEFINTION  */
+#define NULL 0
+/*  PORT AND PINS IN ATmage16A  */
 #define	PORTA  0
 #define	PORTB  1
 #define	PORTC  2
@@ -21,18 +22,19 @@
 #define	PIN5  5
 #define	PIN6  6
 #define	PIN7  7
-
+/*  GPIO MODES  */
 #define INPUT_FLOAT		0
 #define INPUT_PULLUP	2
 #define OUTPUT			1
-
+/*  OUTPUT MODE */
 #define LOW		0
 #define HIGH	1
 
+/*  SET AND CLEAR   */
 #define SET 0Xff 
 #define CLR 0X00 
 
-/*      EXTERNAL INTERRUPTS     */
+/*      EXTERNAL INTERRUPTS SENSE     */
 #define EXT_INT0                    0
 #define EXT_INT0_LOW_LEVEL          3
 #define EXT_INT0_FALLING_EDGE       6

@@ -14,9 +14,6 @@
 #include "EXT_INT_interface.h"
 #include "EXT_INT_private.h"
 #include "EXT_INT_config.h"
-void (*Callback_INT0) (void) = NULL ;
-void (*Callback_INT1) (void) = NULL ;
-void (*Callback_INT2) (void) = NULL;
 void EXTINT_voidInit()
 {
 	CLR_BIT(EXTINT_GICR,GICR_INT0);
@@ -50,7 +47,7 @@ void EXTINT_voidEnable(u8 copy_u8InterruptID )
 	}
 }
 void EXTINT_voidMode(u8 copy_u8InterruptID , u8 copy_u8InterruptMode ,  void(*copy_funcAddress)(void))
-{
+{	
 	switch(copy_u8InterruptID)
 	{
 		case EXT_INT0 :
@@ -187,10 +184,7 @@ void EXTINT_voidGlobalIntEnable()
 	/*	ENABLE GLOBAL INTTERUPT	*/
 	SET_BIT(SREG,SREG_GIE);
 }
-/*      PRIVATE FUNCTION        */
-void __vector_1(void) __attribute__(( signal , used ));
-void __vector_2(void) __attribute__(( signal , used ));
-void __vector_18(void) __attribute__(( signal , used ));
+
 
 void __vector_1(void)
 {
@@ -199,7 +193,7 @@ void __vector_1(void)
 
 void __vector_2(void)
 {
-	Callback_INT1();
+		Callback_INT1();
 	
 		
 }
