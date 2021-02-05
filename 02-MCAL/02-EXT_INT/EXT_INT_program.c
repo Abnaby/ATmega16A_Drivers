@@ -14,7 +14,7 @@
 #include "EXT_INT_interface.h"
 #include "EXT_INT_private.h"
 #include "EXT_INT_config.h"
-void EXTINT_voidInit()
+void EXTINT_voidInit(void)
 {
 	CLR_BIT(EXTINT_GICR,GICR_INT0);
 	CLR_BIT(EXTINT_GICR,GICR_INT1);
@@ -179,7 +179,7 @@ void EXTINT_voidDisable(u8 copy_u8InterruptID )
 
 	}
 }
-void EXTINT_voidGlobalIntEnable()
+void EXTINT_voidGlobalIntEnable(void)
 {
 	/*	ENABLE GLOBAL INTTERUPT	*/
 	SET_BIT(SREG,SREG_GIE);
