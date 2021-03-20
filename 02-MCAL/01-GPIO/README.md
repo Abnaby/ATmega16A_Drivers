@@ -1,4 +1,4 @@
-# External Interrupt Driver  
+# GPIO Driver
 ## Development
 Atmel Studio 7 (Version: 7.0.2397 - ) 
 © 2019 Microchip Technology, Inc.  
