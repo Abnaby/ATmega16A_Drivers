@@ -1,7 +1,7 @@
 /**************************************************************************/
 /* Author	: Mohamed                                               	  */
-/* Date		: 15 February 2021                                 		      */
-/* Version	: V01							  							  */
+/* Date		: 22 March 2021                                 		      */
+/* Version	: V01	- Under constructions		  					      */
 /**************************************************************************/
 
 /******************************************************************************
@@ -15,6 +15,9 @@
 #include "TCC_private.h"
 #include "TCC_config.h"
 static u16 Global_u16PrescalerValue = 1 ;
+static u8 Global_u8AsynchIntervalState = 0 ;
+void (*TIMER0_OV_CallBack) (void) ;
+void (*TIMER0_CTC_CallBack) (void) ;
 void TCC_voidInit(void)
 {
 	/*		DISABLE INTERRUPTS(COMPARE MATCH AND OVERFLOW)		*/
@@ -296,6 +299,72 @@ u8 TCC_u8setCTC_BusyWait(u8 copy_u8TimerCounterID , u8 copy_u8Time , u8 copy_u8T
 	}
 	return LOC_u8ErrorState ;
 }
+
+void TCC_voidEnableOVInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+{
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		SET_BIT(TCC_TIMSK , TIMSK_TOIE0) ; 	
+	}
+}
+void TCC_voidDisableOVInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+{
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		CLR_BIT(TCC_TIMSK , TIMSK_TOIE0) ;
+	}
+}
+void TCC_voidEnableCTCInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+{
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		SET_BIT(TCC_TIMSK , TIMSK_OCIE0) ;
+	} 
+}
+void TCC_voidDisableCTCInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+{
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		CLR_BIT(TCC_TIMSK , TIMSK_OCIE0) ;
+	}
+}
+
+void TCC_voidSetOVCallBack(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+{
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		TIMER0_OV_CallBack = copy_funcAddress;
+	}
+
+}
+void TCC_voidSetCTCCallBack(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+{
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		TIMER0_CTC_CallBack = copy_funcAddress;
+	}
+}
+
+
+
+void TCC_voidSetCTCIntervalSingle(u8 copy_u8TimerCounterID, u8 copy_u8Time , u8 copy_u8TimeUnit , void(*copy_funcAddress)(void))
+{
+	u16 LOC_u16Count = 0 ;
+	Global_u8AsynchIntervalState = 0 ;
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		LOC_u16Count = (STK_u16ConfigInterval(copy_u8TimeUnit)*copy_u8Time) -1;
+		if (LOC_u16Count>=0 && LOC_u16Count <=TIMER0_RANGE)
+		{
+			TCC_OCR0 = 0 ;
+			TCC_TCNT0 = 0 ;
+			TCC_OCR0 = LOC_u16Count ;
+		} 
+	}
+	TCC_voidSetCTCCallBack(copy_u8TimerCounterID,copy_funcAddress); 
+	TCC_voidEnableCTCInterrupt(copy_u8TimerCounterID,copy_funcAddress);
+
+}
 void TCC_voidStopTimer(u8 copy_u8TimerCounterID)
 {
 	if(copy_u8TimerCounterID == TCC_TimerCounter0)
@@ -305,20 +374,39 @@ void TCC_voidStopTimer(u8 copy_u8TimerCounterID)
 		CLR_BIT(TCC_TCCR0,TCCR0_CS02);
 	}
 }
-/*
-void __vector_1(void)
+
+
+void TCC_voidSetCTCIntervalPeriodic(u8 copy_u8TimerCounterID, u8 copy_u8Time , u8 copy_u8TimeUnit , void(*copy_funcAddress)(void))
 {
-	Callback_INT0();	
+	u16 LOC_u16Count = 0 ;
+	Global_u8AsynchIntervalState = 1 ;
+	if(copy_u8TimerCounterID == TCC_TimerCounter0)
+	{
+		LOC_u16Count = (STK_u16ConfigInterval(copy_u8TimeUnit)*copy_u8Time) -1;
+		if (LOC_u16Count>=0 && LOC_u16Count <=TIMER0_RANGE)
+		{
+			TCC_OCR0 = 0 ;
+			TCC_TCNT0 = 0 ;
+			TCC_OCR0 = LOC_u16Count ;
+		}
+	}
+	TCC_voidSetCTCCallBack(copy_u8TimerCounterID,copy_funcAddress);
+	TCC_voidEnableCTCInterrupt(copy_u8TimerCounterID,copy_funcAddress);
+}
+void __vector_19(void)
+{
+	TIMER0_CTC_CallBack();
+	if(Global_u8AsynchIntervalState == 0 )
+	{
+		/*			SINGLE INTERVAL			*/
+		// Disable CTC INTERRUPT	
+		CLR_BIT(TCC_TIMSK , TIMSK_OCIE0) ;
+	}
+
 }
 
-void __vector_2(void)
+void __vector_9(void)
 {
-		Callback_INT1();
-	
-		
-}
 
-void __vector_18(void)
-{
-	Callback_INT2();
-}*/
+	TIMER0_OV_CallBack();
+}

@@ -1,7 +1,7 @@
 /**************************************************************************/
 /* Author	: Mohamed                                               	  */
-/* Date		: 15 February 2021                                 		      */
-/* Version	: V01							  							  */
+/* Date		: 22 March 2021                                 		      */
+/* Version	: V01	- Under constructions		  					      */
 /**************************************************************************/
 #ifndef TCC_interface_H
 #define TCC_interface_H
@@ -100,9 +100,78 @@ void TCC_voidSetCTC_CompareValue (u8 copy_u8TimerCounterID,u16 copy_u16CompareVa
 * Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
 				copy_u16CompareValue	- 0-->255 for TIMER0 OR TIMER1
 										  0-->65535 for TIMER1-
-* Return type : void.
+* Return type : ERROR STATE 0 --> HAPPEN ERROR.
+							1 --> Everything right.
 ***************************************************************************************************************/
 u8 TCC_u8setCTC_BusyWait(u8 copy_u8TimerCounterID , u8 copy_u8Time , u8 copy_u8TimeUnit);
+/***************************************************************************************************************
+* Func Name   : TCC_voidEnableOVInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+* Description :	Enable Overflow Interrupt.
+* MUST ENABLE GLOBAL INTERRUPT
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+* Return type : void.
+***************************************************************************************************************/
+void TCC_voidEnableOVInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));
+/***************************************************************************************************************
+* Func Name   : TCC_voidDisableOVInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))
+* Description :	Disable Overflow Interrupt.
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+* Return type : void.
+***************************************************************************************************************/
+void TCC_voidDisableOVInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));
+/***************************************************************************************************************
+* Func Name   : TCC_voidEnableCTCInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));
+* Description :	Enable Compare match of CTC Mode.
+* MUST ENABLE GLOBAL INTERRUPT
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+* Return type : void.
+***************************************************************************************************************/	
+void TCC_voidEnableCTCInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void))	;
+/***************************************************************************************************************
+* Func Name   : TCC_voidDisableCTCInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));
+* Description :	Disable Compare match of CTC Mode. 
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+* Return type : void.
+***************************************************************************************************************/	
+void TCC_voidDisableCTCInterrupt(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));	
+
+/***************************************************************************************************************
+* Func Name   : TCC_voidSetOVCallBack(func adress);
+* Description :	Set CallBack Function for Overflow. 
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+				void(*copy_funcAddress)(void)
+* Return type : void.
+***************************************************************************************************************/
+void TCC_voidSetOVCallBack(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));
+
+/***************************************************************************************************************
+* Func Name   : TCC_voidSetCTCCallBack(func adress);
+* Description :	Set CallBack Function for CTC. 
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+				void(*copy_funcAddress)(void)
+* Return type : void.
+***************************************************************************************************************/
+void TCC_voidSetCTCCallBack(u8 copy_u8TimerCounterID , void(*copy_funcAddress)(void));
+/***************************************************************************************************************
+* Func Name   : TCC_voidSetCTCIntervalSingle(u8 copy_u8TimerCounterID, u8 copy_u8Time , u8 copy_u8TimeUnit , void(*copy_funcAddress)(void));
+* Description :	Asynchronous Function to set interval hapen once.
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+				copy_u16CompareValue	- 0-->255 for TIMER0 OR TIMER1
+										  0-->65535 for TIMER1-
+				copy_funcAddress        Pointer To Function
+* Return type : void
+***************************************************************************************************************/
+void TCC_voidSetCTCIntervalSingle(u8 copy_u8TimerCounterID, u8 copy_u8Time , u8 copy_u8TimeUnit , void(*copy_funcAddress)(void));
+/***************************************************************************************************************
+* Func Name   : TCC_voidSetCTCIntervalPeriodic(u8 copy_u8TimerCounterID, u8 copy_u8Time , u8 copy_u8TimeUnit , void(*copy_funcAddress)(void));
+* Description :	Asynchronous Function to set interval Periodic.
+* Parameters  : copy_u8TimerCounterID   - TCC_TimerCounter0, TCC_TimerCounter1 or TCC_TimerCounter2-
+				copy_u16CompareValue	- 0-->255 for TIMER0 OR TIMER1
+										  0-->65535 for TIMER1-
+				copy_funcAddress        Pointer To Function
+* Return type : void
+***************************************************************************************************************/
+void TCC_voidSetCTCIntervalPeriodic(u8 copy_u8TimerCounterID, u8 copy_u8Time , u8 copy_u8TimeUnit , void(*copy_funcAddress)(void));
 /***************************************************************************************************************
 * Func Name   : TCC_voidStopTimer(u8 copy_u8TimerCounterID);
 * Description :	Disable TIMERx

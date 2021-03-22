@@ -1,7 +1,7 @@
 /**************************************************************************/
 /* Author	: Mohamed                                               	  */
-/* Date		: 15 February 2021                                 		      */
-/* Version	: V01							  							  */
+/* Date		: 22 March 2021                                 		      */
+/* Version	: V01	- Under constructions		  					      */
 /**************************************************************************/
 #ifndef TCC_private_H
 #define TCC_private_H
@@ -75,11 +75,11 @@ static u16 STK_u16ConfigInterval(u8 copy_u8TimeUnit);
 /******************************************************************************
 * Configuration Constants
 *******************************************************************************/
-/*
- void __vector_1(void) __attribute__(( signal , used ));
- void __vector_2(void) __attribute__(( signal , used ));
- void __vector_18(void) __attribute__(( signal , used ));
-*/
+/*		CTC INTERRUPT		*/
+void __vector_19(void) __attribute__(( signal , used ));
+/*		OVERFLOW INTERRUPT		*/
+void __vector_9(void) __attribute__(( signal , used ));
+
 
 
 
