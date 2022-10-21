@@ -402,3 +402,32 @@ void GPIO_voidTogglePin(u8 copy_u8PortId,u8 copy_u8PinNumber)
 		//<!TODO> ERROR STATE
 	}
 }
+void GPIO_voidSPI_MasterInit(void)
+{
+	// Set MOSI, SS,and SCK output, all others input
+	#define MASTER_MOSI_PIN		PORTB	,	PIN5	,	OUTPUT
+	#define MASTER_SCK_PIN		PORTB	,	PIN7	,	OUTPUT
+	#define MASTER_MISO_PIN		PORTB	,	PIN6	,	INPUT_FLOAT
+	#define MASTER_SS_PIN		PORTB	,	PIN4	,	OUTPUT
+	GPIO_voidSetPinDirection(MASTER_MOSI_PIN) ;
+	GPIO_voidSetPinDirection(MASTER_SCK_PIN) ;
+	GPIO_voidSetPinDirection(MASTER_MISO_PIN) ;
+	GPIO_voidSetPinDirection(MASTER_SS_PIN) ;
+	
+	
+}
+
+void GPIO_voidSPI_SlaveInit(void)
+{
+	// Set MISO output, all others input
+	#define SLAVE_MISO_PIN		PORTB	,	PIN6	,	OUTPUT
+	#define SLAVE_MOSI_PIN		PORTB	,	PIN5	,	INPUT_FLOAT
+	#define SLAVE_SCK_PIN		PORTB	,	PIN7	,	INPUT_FLOAT
+	#define SLAVE_SS_PIN		PORTB	,	PIN4	,	INPUT_FLOAT
+	GPIO_voidSetPinDirection(SLAVE_MOSI_PIN) ;
+	GPIO_voidSetPinDirection(SLAVE_SCK_PIN) ;
+	GPIO_voidSetPinDirection(SLAVE_MISO_PIN) ;
+	GPIO_voidSetPinDirection(SLAVE_SS_PIN) ;
+	
+}
+

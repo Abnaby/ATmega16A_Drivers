@@ -1,13 +1,14 @@
 /**************************************************************************/
 /* Author	: Mohamed                                               	  */
-/* Date		: 15 February 2021                                 		      */
-/* Version	: V02							  							  */
+/* Date		: 18 Oct 2022                                 		      */
+/* Version	: V04							  							  */
 /**************************************************************************/
 
 #ifndef MAPPING_H
 #define MAPPING_H
 /****************************************************      CPU CLK          *********************************************/
 #define CPU_CLOCK_FREQ          (16000000UL)                    
+
 /****************************************************      NULL DEF.          *********************************************/
 #define NULL 0
 /****************************************************      GPIOS          *********************************************/
@@ -53,43 +54,22 @@
 #define EXT_INT2_FALLING_EDGE       33
 #define EXT_INT2_RISING_EDGE        36
 
-/****************************************************      TIMERS          *********************************************/
-/*  Trigger Type    */
-#define FALLING_EDGE                                                   0
-#define RISING_EDGE                                                    1
-/*  TCC ID  */
-#define TCC_TimerCounter0                                              0
-#define TCC_TimerCounter1                                              1
-#define TCC_TimerCounter2                                              2
-/*      TIMER MODE      */
-#define TCC_MODE_NORMAL                                                1
-#define TCC_MODE_CTC                                                   2
-#define TCC_MODE_PWM_PHASE_CORRECT                                     3
-#define TCC_MODE_FAST_PWM                                              4
-/*  OC PIN  */
-#define TCC_OC_MODE_DISCONNECTED                                       0
-/*      OC IN NON PWM MODE      */
-#define TCC_OC_MODE_NOTPWM_TOGGLE                                      1
-#define TCC_OC_MODE_NOTPWM_CLEAR                                       2
-#define TCC_OC_MODE_NOTPWM_SET                                         3
-/*      OC IN FAST PWM MODE      */
-#define TCC_OC_MODE_FPWM_NON_INVERTING_MODE                            2
-#define TCC_OC_MODE_FPWM_INVERTING_MODE                                3
-/*      OC IN PHASE CORRECT PWM MODE      */
-#define TCC_OC_MODE_PCPWM_PWM_CLEAR_UPCOUNTING                            2
-#define TCC_OC_MODE_PCPWM_PWM_SET_DOWNCOUNTRIN                            3
+#define SREG              *((volatile u8 *) (0x5F))
+#define SREG_GIE    7
 
-/* TCC CLK SELECT           */
-#define TCC_NO_CLK_SOURCE                                              0
-#define TCC_CLK_SOURCE_OVER_1                                          1
-#define TCC_CLK_SOURCE_OVER_8                                          2
-#define TCC_CLK_SOURCE_OVER_64                                         3
-#define TCC_CLK_SOURCE_OVER_256                                        4
-#define TCC_CLK_SOURCE_OVER_1024                                       5
-#define TCC_COUNT_AT_FALLING_EDGE                                      6
-#define TCC_COUNT_AT_RASING_EDGE                                       7
+/****************************************************** Timers *********************************************/
+/**
+ * @brief This Enum used to Select Timer Module 
+ * 
+ */
 
+typedef enum
+{
+    TIMER0 , 
+    TIMER1 , 
+    TIMER2 
 
+}TimerSelection_t ;
 
 
 

@@ -82,4 +82,19 @@ void GPIO_voidSetPortValue(u8 copy_u8PortId,u8 copy_u8Value);
 * Return type : void 
 ******************************************************************************/
 void GPIO_voidTogglePin(u8 copy_u8PortId,u8 copy_u8PinNumber);
+/******************************************************************************
+* Func Name   : GPIO_voidSPI_MasterInit();
+* Description :	Config SPI Pins for Master
+* Parameters  : void
+* Return type : void 
+******************************************************************************/
+void GPIO_voidSPI_MasterInit(void); 
+/******************************************************************************
+* Func Name   : GPIO_voidSPI_SlaveInit();
+* Description :	Config GPIO SPI Pins for Slave
+* Parameters  : void
+* Return type : void 
+******************************************************************************/
+void GPIO_voidSPI_SlaveInit(void); 
+
 #endif
